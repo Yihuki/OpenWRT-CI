@@ -1,3 +1,6 @@
+#Openvpn
+CONFIG_PACKAGE_luci-app-openvpn=y
+CONFIG_PACKAGE_openvpn-openssl=y
 #NAT traversal
 CONFIG_PACKAGE_luci-app-natmap=y
 #科学插件调整
