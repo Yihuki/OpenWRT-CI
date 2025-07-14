@@ -1,3 +1,5 @@
+#smartdns
+CONFIG_PACKAGE_luci-app-smartdns=y
 #haproxy
 CONFIG_PACKAGE_haproxy=y
 #usteer
