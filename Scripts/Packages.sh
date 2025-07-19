@@ -107,7 +107,7 @@ UPDATE_VERSION() {
 		if [[ "$NEW_VER" =~ ^[0-9].* ]] && dpkg --compare-versions "$OLD_VER" lt "$NEW_VER"; then
 			sed -i "s/PKG_VERSION:=.*/PKG_VERSION:=$NEW_VER/g" "$PKG_FILE"
 			sed -i "s/PKG_HASH:=.*/PKG_HASH:=$NEW_HASH/g" "$PKG_FILE"
-			sed -i "s/PKG_SOURCE_URL:=.*/PKG_SOURCE_URL:=$NEW_URL/g" "$PKG_FILE"   
+			sed -i "s@PKG_SOURCE_URL:=.*@PKG_SOURCE_URL:=$NEW_URL@g" "$PKG_FILE"   
 			echo "$PKG_FILE version has been updated!"
 		else
 			echo "$PKG_FILE version is already the latest!"
