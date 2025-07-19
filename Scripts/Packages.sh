@@ -107,10 +107,10 @@ UPDATE_VERSION() {
 		if [[ "$NEW_VER" =~ ^[0-9].* ]] && dpkg --compare-versions "$OLD_VER" lt "$NEW_VER"; then
 			sed -i "s/PKG_VERSION:=.*/PKG_VERSION:=$NEW_VER/g" "$PKG_FILE"
 			sed -i "s/PKG_HASH:=.*/PKG_HASH:=$NEW_HASH/g" "$PKG_FILE"
-			sed -i "s/PKG_SOURCE:=.*/PKG_SOURCE:=\$(PKG_NAME)-\$(PKG_V2).tar.gz/g" "$PKG_FILE"
+			sed -i "s/PKG_SOURCE:=.*/PKG_SOURCE:=\$(PKG_NAME)-\$(PKG_VERSION_GO).tar.gz/g" "$PKG_FILE"
 			sed -i "s@PKG_SOURCE_URL:=.*@PKG_SOURCE_URL:=$NEW_URL@g" "$PKG_FILE"
-			sed -i "s/^PKG_VERSION/a\PKG_VERSION_GO:=$NEW_VER_TAG" "$PKG_FILE"
-   			sed -i "s/^PKG_SOURCE/a\PKG_BUILD_DIR:=\$(BUILD_DIR)\/\$(PKG_NAME)-\$(PKG_VERSION_GO)" "$PKG_FILE"
+			sed -i "/^PKG_VERSION/a\PKG_VERSION_GO:=$NEW_VER_TAG" "$PKG_FILE"
+   			sed -i "/^PKG_SOURCE_URL/i\PKG_BUILD_DIR:=\$(BUILD_DIR)\/\$(PKG_NAME)-\$(PKG_VERSION_GO)" "$PKG_FILE"
 			echo "$PKG_FILE version has been updated!"
 		else
 			echo "$PKG_FILE version is already the latest!"
