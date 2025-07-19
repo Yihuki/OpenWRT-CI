@@ -96,15 +96,17 @@ UPDATE_VERSION() {
 		local PKG_URL=$([[ "$OLD_URL" == *"releases"* ]] && echo "${OLD_URL%/}/$OLD_FILE" || echo "${OLD_URL%/}")
 
 		local NEW_VER=$(echo $PKG_TAG | sed -E 's/[^0-9]+/\./g; s/^\.|\.$//g')
-		local NEW_URL=$(echo $PKG_URL | sed "s/\$(PKG_VERSION)/$NEW_VER/g; s/\$(PKG_NAME)/$PKG_NAME/g")
+		local NEW_URL=$(echo $PKG_URL | sed "s/\$(PKG_VERSION)/$PKG_TAG/g; s/\$(PKG_NAME)/$PKG_NAME/g")
 		local NEW_HASH=$(curl -sL "$NEW_URL" | sha256sum | cut -d ' ' -f 1)
 
 		echo "old version: $OLD_VER $OLD_HASH"
 		echo "new version: $NEW_VER $NEW_HASH"
+		echo "new url: $NEW_URL"
 
 		if [[ "$NEW_VER" =~ ^[0-9].* ]] && dpkg --compare-versions "$OLD_VER" lt "$NEW_VER"; then
 			sed -i "s/PKG_VERSION:=.*/PKG_VERSION:=$NEW_VER/g" "$PKG_FILE"
 			sed -i "s/PKG_HASH:=.*/PKG_HASH:=$NEW_HASH/g" "$PKG_FILE"
+			sed -i "s/PKG_SOURCE_URL:=.*/PKG_SOURCE_URL:=$NEW_URL/g" "$PKG_FILE"   
 			echo "$PKG_FILE version has been updated!"
 		else
 			echo "$PKG_FILE version is already the latest!"
