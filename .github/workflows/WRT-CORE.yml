@@ -150,6 +150,7 @@ jobs:
 
           ./scripts/feeds update -a
           ./scripts/feeds install -a
+          rm ./net/sing-box/patches/010-Fix-ipv6-tproxy-listener.patch‎
 
       - name: Custom Packages
         run: |
