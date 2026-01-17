@@ -30,7 +30,6 @@ if [ -d *"luci-theme-argon"* ]; then
 
 	cd ./luci-theme-argon/
 
-	sed -i "/font-weight:/ { /important/! { /\/\*/! s/:.*/: var(--font-weight);/ } }" $(find ./luci-theme-argon -type f -iname "*.css")
 	sed -i "s/primary '.*'/primary '#31a1a1'/; s/'0.2'/'0.5'/; s/'none'/'bing'/; s/'600'/'normal'/" ./luci-app-argon-config/root/etc/config/argon
 
 	cd $PKG_PATH && echo "theme-argon has been fixed!"
@@ -82,18 +81,7 @@ if [ -f "$DM_FILE" ]; then
 	echo " "
 
 	sed -i 's/fs-ntfs/fs-ntfs3/g' $DM_FILE
+	sed -i '/ntfs-3g-utils /d' $DM_FILE
 
 	cd $PKG_PATH && echo "diskman has been fixed!"
-fi
-
-#修复rpcsvc-proto编译失败
-RP_PATH="../feeds/packages/libs/rpcsvc-proto"
-if [ -d "$RP_PATH" ]; then
-	echo " "
-
-	cd $RP_PATH && mkdir -p patches && cd ./patches
-
-	curl -sL -o "0001-po-update-for-gettext-0.22.patch" https://raw.githubusercontent.com/neheb/packages/refs/heads/mangix/libs/rpcsvc-proto/patches/0001-po-update-for-gettext-0.22.patch
-
-	cd $PKG_PATH && echo "rpcsvc-proto has been fixed!"
 fi
